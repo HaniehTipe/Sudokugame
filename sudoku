@@ -1,0 +1,100 @@
+// See https://aka.ms/new-console-template for more information
+using System;
+namespace project
+{
+    class SudokuGame
+    {
+        private int[,] grid;
+        public void number()
+        {
+            grid = new int[9, 9] {
+            { 0, 0, 5, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 1, 8, 0, 0 },
+            { 2, 7, 8, 3, 5, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 3, 0, 0, 2, 8 },
+            { 0, 6, 0, 0, 4, 0, 0, 1, 0 },
+            { 8, 1, 0, 0, 7, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 2, 5, 6, 3, 7 },
+            { 0, 0, 3, 7, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 4, 0, 0 }
+            };
+        }
+        public void Print()
+        {
+            for (int i = 0; i < grid.GetLength(1); i++)
+            {
+                if (i % 3 == 0 && i != 0)
+                {
+                    Console.WriteLine("---------------------");
+                }
+                for (int j = 0; j < grid.GetLength(1); j++)
+                {
+                    if (j % 3 == 2 && j != grid.GetLength(1) - 1)
+                    {
+                        Console.WriteLine(grid[i, j] + "|");
+                    }
+                    else
+                    {
+                        Console.WriteLine(grid[i, j] + " ");
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+        public  bool check ( int row, int column, int value)
+        {
+            //check if value already exists in the same row or column
+
+            for (int i = 0; i < grid.GetLength(1); i++)
+            {
+                if (grid[row, i] == value || grid[i, column] == value)
+                {
+                    return false;
+                }
+            }
+
+            //check if value  already exists in the same box
+            int boxRow = row / 3 * 3;
+            int boxColumn = column / 3 * 3;
+            for (int i = boxRow; i < boxRow + 3; i++)
+            {
+                for (int j = boxColumn; j < boxColumn + 3; j++)
+                {
+                    if (grid[i, j] == value)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+        }
+
+    }//end class SudokuGame
+    class test
+    {
+        static void Main()
+        {
+            SudokuGame sg = new SudokuGame();
+            sg.number();
+            sg.Print();
+            Console.WriteLine("enter row(1-9):");
+            int row = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("enter column(1-9):");
+            int column = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("enter value(1-9):");
+            int value = Convert.ToInt32(Console.ReadLine());
+                if (sg.check(row, column, value))
+                {
+                   
+                    Console.Clear();
+                    sg.Print();
+                }
+                else
+                {
+                    Console.WriteLine("Invalid move!try again");
+                }
+            
+            Console.WriteLine("Congratulations!you solved the puzzle");
+        }//end Main
+    }//end class test
+}//end namespace
